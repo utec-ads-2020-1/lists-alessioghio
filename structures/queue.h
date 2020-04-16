@@ -13,16 +13,50 @@ class queue {
 	int capacity;
 
 public:
-	stack(int size = MAX);
-	~stack();   		
+	queue(int size = MAX){
+		this->data = new T(size);
+		this->top = -1;
+		this-> capacity = size;
+	}
 
-	void push(T);
-	int pop();
-	int front();
-    int back();
+	~queue(){
+		delete[] this->data;
+	}   		
 
-	int size();
-	bool empty();
+	void push(T value){ // added argument of type T (there was no argument)
+		this->top++;
+		T* temp = this->data;
+		temp += top;
+		*temp = value;
+	}
+
+	void pop(){
+		ASSERT(this->empty()==false, "Queue is empty, there are no elements to pop");
+		this->capacity--;
+		this->data++; // remove the "front" element
+		this->top--;
+	}
+
+	T front(){
+		ASSERT(this->empty()==false, "Queue is empty, cannot return the front element");
+		return *this->data;
+	}
+
+    T back(){
+		ASSERT(this->empty()==false, "Queue is empty, cannot return the back element");
+		T* temp = this->data;
+		temp += this->top;
+		return *temp;
+	}
+
+	int size(){
+		ASSERT(this->empty()==false, "Queue is empty, cannot display size");
+		return this->top+1;
+	}
+
+	bool empty(){
+		return this->top == -1; // true: is empty, false: not empty
+	}
 };
 
 #endif

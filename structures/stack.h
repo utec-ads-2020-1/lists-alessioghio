@@ -9,13 +9,13 @@ using namespace std;
 template <typename T>
 class stack {
 	T* data;
-	int Top; // changed attribute to capital letter because of conflict with method
+	int top;
 	int capacity;
 
 public:
 	stack(int size = MAX){
 		this->data = new T(size);
-		this->Top = -1; // index of stack
+		this->top = -1; // index of stack
 		this->capacity = size;
 	}
 
@@ -24,35 +24,32 @@ public:
 	}
 
 	void push(T value){ // added argument of type T (there was no argument)
-		this->Top++;
+		this->top++;
 		T* temp = this->data;
-		temp += Top;
+		temp += top;
 		*temp = value;
 	}
 
-	T pop(){ // changed returned value
+	void pop(){ // changed returned value
 		ASSERT(this->empty()==false, "Stack is empty, there are no elements to pop");
 		this->capacity--;
-		T* temp = this->data;
-		temp += Top;
-		this->Top--;
-		return *temp; 
+		this->top--;
 	}
 
-	T top(){ // changed returned value
+	T peak(){ // changed returned value and changed method name because of conflict with attribute "top"
 		ASSERT(this->empty()==false, "Stack is empty, cannot return the top element");
 		T* temp = this->data;
-		temp += Top;
+		temp += top;
 		return *temp;
 	}
 
 	int size(){
 		ASSERT(this->empty()==false, "Stack is empty, cannot display size");
-		return this->Top + 1;
+		return this->top + 1;
 	}
 
 	bool empty(){
-		return this->Top == -1; // true: is empty, false: not empty
+		return this->top == -1; // true: is empty, false: not empty
 	}
 };
 
