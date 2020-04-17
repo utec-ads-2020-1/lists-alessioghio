@@ -5,15 +5,16 @@
 #include "structures/lists/list.h"
 #include "structures/lists/forward.h"
 #include "structures/lists/node.h"
+#include "structures/algorithms/mergeSort.h"
 
 using namespace std;
 
 
 int main(int argc, char *argv[]) {
     
-    /* stack<int> myStack;
+    stack<int> myStack;
 
-    myStack.push(1);
+    /* myStack.push(1);
     int topVal = myStack.peak();
     myStack.push(2);
     int size = myStack.size();
@@ -22,7 +23,7 @@ int main(int argc, char *argv[]) {
     myStack.pop();
     bool isempty = myStack.empty(); */
 
-    /* queue<int> myQueue;
+    queue<int> myQueue;
 
     myQueue.push(1);
     int frontVal = myQueue.front();
@@ -32,12 +33,12 @@ int main(int argc, char *argv[]) {
     myQueue.pop();
     size = myQueue.size();
     myQueue.pop();
-    bool isempty = myQueue.empty(); */
+    bool isempty = myQueue.empty();
 
     /* Node<int>* myNode = new Node<int>(5);
     myNode->killSelf(); */
 
-    List<int>* myPtr;
+    /* List<int>* myPtr;
     ForwardList<int> myList;
     myPtr = &myList;
     bool isEmpty = myPtr->empty();
@@ -60,7 +61,19 @@ int main(int argc, char *argv[]) {
     idxVal = myList[3];
     idxVal = myList[4];
     myPtr->clear();
-    isEmpty = myPtr->empty();
+    isEmpty = myPtr->empty(); */
+
+    /* List<int>* myPtr;
+    ForwardList<int> myList;
+    myPtr = &myList;
+    myPtr->push_front(15);
+    myPtr->push_front(10);
+    myPtr->push_front(5);
+    myPtr->push_front(20);
+    myPtr->push_front(3);
+    myPtr->push_front(2);
+    myPtr->sort();
+    myPtr->reverse(); */
 
     return EXIT_SUCCESS;
 }

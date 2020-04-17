@@ -1,20 +1,12 @@
 #ifndef FORWARD_H
 #define FORWARD_H
 
-#include<iostream>
+#include <iostream>
 #include "list.h"
 #include "iterators/forward_iterator.h"
+#include "../algorithms/mergeSort.h"
 
-/* 
-try{
-    if (this->empty()){
-        throw "Forward List is empty, cannot return front element";
-    }
-    return this->head->data;
-} catch(const char* msg){
-    cerr << msg << '\n';
-}
-*/
+using namespace std;
 
 // TODO: Implement all methods
 template <typename T>
@@ -29,7 +21,7 @@ class ForwardList : public List<T> {
                 }
                 return this->head->data;
             } catch(const char* msg){
-                cerr << msg << '\n';
+                cerr << msg << endl;
             }
         }
 
@@ -37,10 +29,11 @@ class ForwardList : public List<T> {
             try{
                 if (this->empty()){
                     throw "Forward List is empty, cannot return back element";
+                } else {
+                    return this->tail->data;
                 }
-                return this->tail->data;
             } catch(const char* msg){
-                cerr << msg << '\n';
+                cerr << msg << endl;
             } 
         }
 
@@ -74,42 +67,44 @@ class ForwardList : public List<T> {
             try{
                 if (this->empty()){
                     throw "Forward List is empty, cannot pop front element";
-                }
-                if (this->nodes>1){
-                    Node<T>* temp = this->head->next;
-                    this->head->killSelf();
-                    this->head = temp;
                 } else{
-                    this->head->killSelf();
-                    this->head = nullptr;
-                    this->tail = nullptr;
+                    if (this->nodes>1){
+                        Node<T>* temp = this->head->next;
+                        this->head->killSelf();
+                        this->head = temp;
+                    } else{
+                        this->head->killSelf();
+                        this->head = nullptr;
+                        this->tail = nullptr;
+                    }
+                    this->nodes--;
                 }
-                this->nodes--;
             } catch(const char* msg){
-                cerr << msg << '\n';
+                cerr << msg << endl;
             } 
         }
         void pop_back(){
             try{
                 if (this->empty()){
                     throw "Forward List is empty, cannot pop back element";
-                }
-                if (this->nodes>1){
-                    Node<T>* temp = this->head;
-                    while (temp->next->next!=nullptr){
-                    temp = temp->next;
+                } else{
+                    if (this->nodes>1){
+                        Node<T>* temp = this->head;
+                        while (temp->next->next!=nullptr){
+                            temp = temp->next;
+                        }
+                        this->tail->killSelf();
+                        this->tail = temp;
+                        this->tail->next = nullptr; // Tail next is always a nullptr
+                    } else{ // Only one element on list
+                        this->tail->killSelf();
+                        this->tail = nullptr;
+                        this->head = nullptr;
                     }
-                    this->tail->killSelf();
-                    this->tail = temp;
-                    this->tail->next = nullptr; // Tail next is always a nullptr
-                } else{ // Only one element on list
-                    this->tail->killSelf();
-                    this->tail = nullptr;
-                    this->head = nullptr;
+                    this->nodes--;
                 }
-                this->nodes--;
             } catch(const char* msg){
-                cerr << msg << '\n';
+                cerr << msg << endl;
             } 
         }
 
@@ -135,7 +130,7 @@ class ForwardList : public List<T> {
                     }
                 }  
             } catch(const char* msg){
-                cerr << msg << '\n';
+                cerr << msg << endl;
             } 
         }
 
@@ -146,40 +141,79 @@ class ForwardList : public List<T> {
         int size(){
             try{
                 if (this->empty()){
-                    throw 0;
+                    throw "Forward List is empty";
+                } else{
+                    return this->nodes;
                 }
-                return this->nodes;
-            } catch(int e){
-                std::cout << "Forward List is empty" << '\n';
+            } catch(const char* msg){
+                cerr << msg << endl;
             } 
         }
 
         void clear(){
             try{
                 if (this->empty()){
-                    throw 0;
-                }
-                Node<T>* temp = this->head;
-                while (temp->next != nullptr){
-                    temp = temp->next;
+                    throw "Forward List is already empty";
+                } else{
+                    Node<T>* temp = this->head;
+                    while (temp->next != nullptr){
+                        temp = temp->next;
+                        this->head->killSelf();
+                        this->head = temp;
+                    }
                     this->head->killSelf();
-                    this->head = temp;
+                    this->head = nullptr;
+                    this->tail = nullptr;
+                    this->nodes = 0;
                 }
-                this->head->killSelf();
-                this->head = nullptr;
-                this->tail = nullptr;
-                this->nodes = 0;
-            } catch(int e){
-                std::cout << "Forward List is already empty" << '\n';
+            } catch(const char* msg){
+                cerr << msg << endl;
             } 
         }
 
         void sort(){
-
+            try{
+                if (this->empty()){
+                    throw "Cannot sort an empty Forward List";
+                } else{
+                    MergeSort(this->head);
+                    this->tail = this->head;
+                    while(this->tail->next!=nullptr){
+                        this->tail = this->tail->next;
+                    }
+                }
+            } catch(const char* msg){
+                cerr << msg << endl;
+            }
         }
 
         void reverse(){
-
+            try{
+                if (this->empty()){
+                    throw "Cannot reverse an empty Forward List";
+                } 
+                else if(this->nodes == 1){
+                    throw "Cannot reverse a Forward List with only one value";
+                } else{
+                    Node<T>* temp;
+                    int iter = this->nodes-2;
+                    while (iter!=-1){
+                        temp = this->head;
+                        for (int i = 0; i < iter; i++){ // iterate until one position before the last reversed element
+                            temp = temp->next;
+                        }
+                        temp->next->next = temp; // Reverse "next" pointers
+                        iter--;
+                    }
+                    // At the end reverse tail and head
+                    temp = this->tail;
+                    this->head->next = nullptr;
+                    this->tail = this->head;
+                    this->head = temp;
+                }
+            } catch(const char* msg){
+                cerr << msg << endl;
+            }
         }
 
         ForwardIterator<T> begin();
@@ -199,7 +233,9 @@ class ForwardList : public List<T> {
          * any element: they are transferred, no matter whether x is an lvalue or an rvalue, 
          * or whether the value_type supports move-construction or not.
         */
-        void merge(ForwardList<T>&);
+        void merge(ForwardList<T>&){
+
+        }
 };
 
 #endif

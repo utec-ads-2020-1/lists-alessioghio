@@ -4,6 +4,19 @@
 #include "list.h"
 #include "iterators/bidirectional_iterator.h"
 
+/* 
+try{
+    if (this->empty()){
+        throw "Forward List is empty, cannot return front element";
+    } else{
+
+    }
+    
+} catch(const char* msg){
+    cerr << msg << endl;
+}
+*/
+
 // TODO: Implement all methods
 template <typename T>
 class LinkedList : public List<T> {

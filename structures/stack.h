@@ -1,9 +1,10 @@
 #ifndef STACK_H
 #define STACK_H
 
+#include <iostream>
 using namespace std;
 
-#define MAX 1000 
+#define MAX 1000
 
 // TODO: Implement all methods
 template <typename T>
@@ -31,21 +32,42 @@ public:
 	}
 
 	void pop(){ // changed returned value
-		ASSERT(this->empty()==false, "Stack is empty, there are no elements to pop");
-		this->capacity--;
-		this->top--;
+		try{
+			if (this->empty()){
+				throw "Stack is empty, there are no elements to pop";
+			} else{
+				this->capacity--;
+				this->top--;
+			}
+		} catch(const char* msg){
+			cerr << msg << endl;
+		}
 	}
 
 	T peak(){ // changed returned value and changed method name because of conflict with attribute "top"
-		ASSERT(this->empty()==false, "Stack is empty, cannot return the top element");
-		T* temp = this->data;
-		temp += top;
-		return *temp;
+		try{
+			if (this->empty()){
+				throw "Stack is empty, cannot return the top element";
+			} else{
+				T* temp = this->data;
+				temp += top;
+				return *temp;
+			}	
+		} catch(const char* msg){
+			cerr << msg << endl;
+		}	
 	}
 
 	int size(){
-		ASSERT(this->empty()==false, "Stack is empty, cannot display size");
-		return this->top + 1;
+		try{
+			if (this->empty()){
+				throw "Stack is empty";
+			} else{
+				return this->top + 1;
+			}
+		} catch(const char* msg){
+			cerr << msg << endl;
+		}
 	}
 
 	bool empty(){

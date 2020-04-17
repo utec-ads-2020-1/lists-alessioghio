@@ -1,6 +1,8 @@
 #ifndef QUEUE_H
 #define QUEUE_H
 
+#include <iostream>
+
 using namespace std;
 
 #define MAX 1000 
@@ -31,27 +33,58 @@ public:
 	}
 
 	void pop(){
-		ASSERT(this->empty()==false, "Queue is empty, there are no elements to pop");
-		this->capacity--;
-		this->data++; // remove the "front" element
-		this->top--;
+		try{
+			if (this->empty()){
+				throw "Queue is empty, there are no elements to pop";
+			} else{
+				this->capacity--;
+				this->data++; // "remove" the "front" element
+				this->top--;
+			}
+			
+		} catch(const char* msg){
+			cerr << msg << endl;
+		}
 	}
 
 	T front(){
-		ASSERT(this->empty()==false, "Queue is empty, cannot return the front element");
-		return *this->data;
+		try{
+			if (this->empty()){
+				throw "Queue is empty, cannot return the front element";
+			} else{
+				return *this->data;
+			}
+			
+		} catch(const char* msg){
+			cerr << msg << endl;
+		}
 	}
 
     T back(){
-		ASSERT(this->empty()==false, "Queue is empty, cannot return the back element");
-		T* temp = this->data;
-		temp += this->top;
-		return *temp;
+		try{
+			if (this->empty()){
+				throw "Queue is empty, cannot return the back element";
+			} else{
+				T* temp = this->data;
+				temp += this->top;
+				return *temp;
+			}	
+		} catch(const char* msg){
+			cerr << msg << endl;
+		}
 	}
 
 	int size(){
-		ASSERT(this->empty()==false, "Queue is empty, cannot display size");
-		return this->top+1;
+		try{
+			if (this->empty()){
+				throw "Queue is empty";
+			} else{
+				return this->top+1;
+			}
+			
+		} catch(const char* msg){
+			cerr << msg << endl;
+		}
 	}
 
 	bool empty(){
