@@ -236,9 +236,10 @@ class ForwardList : public List<T> {
         */
         void merge(ForwardList<T>& fList){
             for (int i = 0; i < fList.size(); i++){
-                this->push_back(fList[i]);
+                this->tail->next = fList.head;
+                this->tail = fList.head;
+                fList.head = fList.head->next;
             }
-            fList.head = nullptr;
             fList.tail = nullptr;
         }
 };
