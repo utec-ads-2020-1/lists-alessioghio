@@ -16,7 +16,7 @@ class queue {
 
 public:
 	queue(int size = MAX){
-		this->data = new T(size);
+		this->data = new T[size];
 		this->top = -1;
 		this-> capacity = size;
 	}
@@ -26,6 +26,9 @@ public:
 	}   		
 
 	void push(T value){ // added argument of type T (there was no argument)
+		if(this->capacity-1==this->top){ // queue is full
+			this->resize(this->capacity*2);
+		}
 		this->top++;
 		T* temp = this->data;
 		temp += top;
@@ -40,8 +43,8 @@ public:
 				this->capacity--;
 				this->data++; // "remove" the "front" element
 				this->top--;
+				this->resize(this->capacity);
 			}
-			
 		} catch(const char* msg){
 			cerr << msg << endl;
 		}
@@ -89,6 +92,18 @@ public:
 
 	bool empty(){
 		return this->top == -1; // true: is empty, false: not empty
+	}
+
+	void resize(int newMax){
+		T* temp = new T[newMax];
+		int iter;
+		iter = (newMax<this->capacity) ? newMax : this->capacity;
+		for (int i = 0; i < iter; i++){
+			temp[i] = this->data[i];
+		}
+		delete[] this->data;
+		this->data = temp;
+		this->capacity = newMax;
 	}
 };
 

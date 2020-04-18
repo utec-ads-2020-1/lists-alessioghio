@@ -83,6 +83,7 @@ class ForwardList : public List<T> {
                 cerr << msg << endl;
             } 
         }
+
         void pop_back(){
             try{
                 if (this->empty()){
@@ -233,8 +234,12 @@ class ForwardList : public List<T> {
          * any element: they are transferred, no matter whether x is an lvalue or an rvalue, 
          * or whether the value_type supports move-construction or not.
         */
-        void merge(ForwardList<T>&){
-
+        void merge(ForwardList<T>& fList){
+            for (int i = 0; i < fList.size(); i++){
+                this->push_back(fList[i]);
+            }
+            fList.head = nullptr;
+            fList.tail = nullptr;
         }
 };
 
