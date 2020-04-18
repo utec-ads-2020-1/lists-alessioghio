@@ -52,7 +52,7 @@ Node<T>* SortedMerge(Node<T>*& L, Node<T>*& R){
 } 
 
 template<typename T>
-void MergeSort(Node<T>* rootHead){ 
+void MergeSort(Node<T>*& rootHead){ 
     Node<T>* headRef = rootHead;
     Node<T>* L; // Left
     Node<T>* R; // Right

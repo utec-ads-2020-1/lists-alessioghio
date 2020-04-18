@@ -14,6 +14,21 @@ class ForwardList : public List<T> {
     public:
         ForwardList() : List<T>() {}
 
+        ~ForwardList(){ // Similar to clear
+            if (!this->empty()){ // list is not empty
+                Node<T>* temp = this->head;
+                while (temp->next != nullptr){
+                    temp = temp->next;
+                    this->head->killSelf();
+                    this->head = temp;
+                }
+                this->head->killSelf();
+                delete temp;
+                delete this->head;
+                delete this->tail;
+            }
+        }
+
         T front(){
             try{
                 if (this->empty()){
@@ -109,16 +124,16 @@ class ForwardList : public List<T> {
             } 
         }
 
-        T operator[](int index){
+        T operator[](int index){ // added int argument (there was no argument)
             try{
                 if (this->empty()){
                     throw "Cannot index an empty Forward List";
                 } else{
                     if (index < 0){
                         throw "Index cannot be less than 0";
-                    } else if(index == 0){
+                    } else if(index == 0){ // return first element
                         return this->head->data;
-                    } else if(index == (this->nodes-1)){
+                    } else if(index == (this->nodes-1)){ // return last element
                         return this->tail->data;
                     } else if(index > (this->nodes-1)){
                         throw "Index out of range";
@@ -163,6 +178,7 @@ class ForwardList : public List<T> {
                         this->head = temp;
                     }
                     this->head->killSelf();
+                    // Next lines allow to use the structure
                     this->head = nullptr;
                     this->tail = nullptr;
                     this->nodes = 0;
@@ -176,6 +192,8 @@ class ForwardList : public List<T> {
             try{
                 if (this->empty()){
                     throw "Cannot sort an empty Forward List";
+                } else if(this->nodes-1 == 1){
+                    throw "Forward List only has one element, sort aborted";
                 } else{
                     MergeSort(this->head);
                     this->tail = this->head;
@@ -194,7 +212,7 @@ class ForwardList : public List<T> {
                     throw "Cannot reverse an empty Forward List";
                 } 
                 else if(this->nodes == 1){
-                    throw "Cannot reverse a Forward List with only one value";
+                    throw "Forward List only has one element, reverse aborted";
                 } else{
                     Node<T>* temp;
                     int iter = this->nodes-2;
@@ -241,6 +259,8 @@ class ForwardList : public List<T> {
                 fList.head = fList.head->next;
             }
             fList.tail = nullptr;
+            this->nodes += fList.nodes;
+            fList.nodes = 0;
         }
 };
 
