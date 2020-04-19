@@ -131,5 +131,33 @@ int main(int argc, char *argv[]) {
     myList2.reverse();
     myList.merge(myList2); */
 
+    CircularLinkedList<int> myList, myList2;
+    /* myList.push_back(2);
+    myList.push_back(3);
+    myList.push_front(1);
+    int val = myList.front();
+    val = myList.back();
+    myList.pop_front();
+    myList.pop_back();
+    myList.pop_front();*/
+    for (int i = 0; i < 4; i++){
+        myList.push_back(i);
+    }
+    /* for (int i = 0; i < 11; i++){
+        cout << myList[i] << " ";
+    } */
+    myList2.push_back(22);
+    myList2.push_back(31);
+    myList2.push_back(78);
+    /* myList2.push_back(93);
+    myList2.push_back(19);
+    myList2.push_back(7);
+    myList2.push_back(56);
+    myList2.push_back(43); */
+    /* myList2.sort();
+    myList2.reverse(); */
+    myList.merge(myList2);
+    
+
     return EXIT_SUCCESS;
 }

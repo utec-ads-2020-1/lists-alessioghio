@@ -6,18 +6,6 @@
 #include "iterators/bidirectional_iterator.h"
 #include "../algorithms/mergeSort.h"
 
-/* 
-try{
-    if (this->empty()){
-        throw "Forward List is empty, cannot return front element";
-    } else{
-
-    }
-    
-} catch(const char* msg){
-    cerr << msg << endl;
-}
-*/
 
 // TODO: Implement all methods
 template <typename T>
@@ -25,8 +13,18 @@ class LinkedList : public List<T> {
     public:
         LinkedList() : List<T>() {}
 
-        ~LinkedList(){
-
+        ~LinkedList(){ // Similar to clear
+            if (!this->empty()){ // list is not empty
+                Node<T>* temp = this->head;
+                while (temp->next != nullptr){
+                    temp = temp->next;
+                    this->head->killSelf();
+                    this->head = temp;
+                }
+                this->head->killSelf();
+                delete this->head;
+                delete this->tail;
+            }
         }
 
         T front(){
@@ -99,7 +97,7 @@ class LinkedList : public List<T> {
                 }
             } catch(const char* msg){
                 cerr << msg << endl;
-            } 
+            }
         }
         
         void pop_back(){
@@ -259,15 +257,23 @@ class LinkedList : public List<T> {
          * or whether the value_type supports move-construction or not.
         */
         void merge(LinkedList<T>& lList){
-            for (int i = 0; i < lList.size(); i++){
-                this->tail->next = lList.head;
-                lList.head->prev = this->tail;
-                this->tail = lList.head;
-                lList.head = lList.head->next;
+            try{
+                if (this->empty() || lList.empty()){
+                    throw "Linked List to be merged is empty, merge aborted";
+                } else{
+                    for (int i = 0; i < lList.size(); i++){
+                        this->tail->next = lList.head;
+                        lList.head->prev = this->tail;
+                        this->tail = lList.head;
+                        lList.head = lList.head->next;
+                    }
+                    lList.tail = nullptr;
+                    this->nodes += lList.nodes;
+                    lList.nodes = 0;
+                }
+            } catch(const char* msg){
+                cerr << msg << endl;
             }
-            lList.tail = nullptr;
-            this->nodes += lList.nodes;
-            lList.nodes = 0;
         }
 };
 

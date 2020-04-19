@@ -253,14 +253,22 @@ class ForwardList : public List<T> {
          * or whether the value_type supports move-construction or not.
         */
         void merge(ForwardList<T>& fList){
-            for (int i = 0; i < fList.size(); i++){
-                this->tail->next = fList.head;
-                this->tail = fList.head;
-                fList.head = fList.head->next;
+            try{
+                if (this->empty() || fList.empty()){
+                    throw "Forward List to be merged is empty, merge aborted";
+                } else{
+                    for (int i = 0; i < fList.size(); i++){
+                        this->tail->next = fList.head;
+                        this->tail = fList.head;
+                        fList.head = fList.head->next;
+                    }
+                    fList.tail = nullptr;
+                    this->nodes += fList.nodes;
+                    fList.nodes = 0;
+                }
+            } catch(const char* msg){
+                cerr << msg << endl;
             }
-            fList.tail = nullptr;
-            this->nodes += fList.nodes;
-            fList.nodes = 0;
         }
 };
 
