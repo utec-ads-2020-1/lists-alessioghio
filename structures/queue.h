@@ -36,57 +36,39 @@ public:
 	}
 
 	void pop(){
-		try{
-			if (this->empty()){
-				throw "Queue is empty, there are no elements to pop";
-			} else{
-				this->capacity--;
-				this->data++; // "remove" the "front" element
-				this->top--;
-				this->resize(this->capacity);
-			}
-		} catch(const char* msg){
-			cerr << msg << endl;
+		if (this->empty()){
+			throw "Queue is empty, there are no elements to pop";
+		} else{
+			this->capacity--;
+			this->data++; // "remove" the "front" element
+			this->top--;
+			this->resize(this->capacity);
 		}
 	}
 
 	T front(){
-		try{
-			if (this->empty()){
-				throw "Queue is empty, cannot return the front element";
-			} else{
-				return *this->data;
-			}
-			
-		} catch(const char* msg){
-			cerr << msg << endl;
+		if (this->empty()){
+			throw "Queue is empty, cannot return the front element";
+		} else{
+			return *this->data;
 		}
 	}
 
     T back(){
-		try{
-			if (this->empty()){
-				throw "Queue is empty, cannot return the back element";
-			} else{
-				T* temp = this->data;
-				temp += this->top;
-				return *temp;
-			}	
-		} catch(const char* msg){
-			cerr << msg << endl;
+		if (this->empty()){
+			throw "Queue is empty, cannot return the back element";
+		} else{
+			T* temp = this->data;
+			temp += this->top;
+			return *temp;
 		}
 	}
 
 	int size(){
-		try{
-			if (this->empty()){
-				throw "Queue is empty";
-			} else{
-				return this->top+1;
-			}
-			
-		} catch(const char* msg){
-			cerr << msg << endl;
+		if (this->empty()){
+			throw "Queue is empty";
+		} else{
+			return this->top+1;
 		}
 	}
 

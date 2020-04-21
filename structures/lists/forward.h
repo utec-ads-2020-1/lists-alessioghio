@@ -30,26 +30,18 @@ class ForwardList : public List<T> {
         }
 
         T front(){
-            try{
-                if (this->empty()){
-                    throw "Forward List is empty, cannot return front element";
-                }
-                return this->head->data;
-            } catch(const char* msg){
-                cerr << msg << endl;
+            if (this->empty()){
+                throw "Forward List is empty, cannot return front element";
             }
+            return this->head->data;
         }
 
         T back(){
-            try{
-                if (this->empty()){
-                    throw "Forward List is empty, cannot return back element";
-                } else {
-                    return this->tail->data;
-                }
-            } catch(const char* msg){
-                cerr << msg << endl;
-            } 
+            if (this->empty()){
+                throw "Forward List is empty, cannot return back element";
+            } else {
+                return this->tail->data;
+            }
         }
 
         void push_front(T value){ // added argument of type T (there was no argument)
@@ -79,75 +71,63 @@ class ForwardList : public List<T> {
         }
 
         void pop_front(){
-            try{
-                if (this->empty()){
-                    throw "Forward List is empty, cannot pop front element";
+            if (this->empty()){
+                throw "Forward List is empty, cannot pop front element";
+            } else{
+                if (this->nodes>1){
+                    Node<T>* temp = this->head->next;
+                    this->head->killSelf();
+                    this->head = temp;
                 } else{
-                    if (this->nodes>1){
-                        Node<T>* temp = this->head->next;
-                        this->head->killSelf();
-                        this->head = temp;
-                    } else{
-                        this->head->killSelf();
-                        this->head = nullptr;
-                        this->tail = nullptr;
-                    }
-                    this->nodes--;
+                    this->head->killSelf();
+                    this->head = nullptr;
+                    this->tail = nullptr;
                 }
-            } catch(const char* msg){
-                cerr << msg << endl;
-            } 
+                this->nodes--;
+            }
         }
 
         void pop_back(){
-            try{
-                if (this->empty()){
-                    throw "Forward List is empty, cannot pop back element";
-                } else{
-                    if (this->nodes>1){
-                        Node<T>* temp = this->head;
-                        while (temp->next->next!=nullptr){
-                            temp = temp->next;
-                        }
-                        this->tail->killSelf();
-                        this->tail = temp;
-                        this->tail->next = nullptr; // Tail next is always a nullptr
-                    } else{ // Only one element on list
-                        this->tail->killSelf();
-                        this->tail = nullptr;
-                        this->head = nullptr;
+            if (this->empty()){
+                throw "Forward List is empty, cannot pop back element";
+            } else{
+                if (this->nodes>1){
+                    Node<T>* temp = this->head;
+                    while (temp->next->next!=nullptr){
+                        temp = temp->next;
                     }
-                    this->nodes--;
+                    this->tail->killSelf();
+                    this->tail = temp;
+                    this->tail->next = nullptr; // Tail next is always a nullptr
+                } else{ // Only one element on list
+                    this->tail->killSelf();
+                    this->tail = nullptr;
+                    this->head = nullptr;
                 }
-            } catch(const char* msg){
-                cerr << msg << endl;
-            } 
+                this->nodes--;
+            }
         }
 
         T operator[](int index){ // added int argument (there was no argument)
-            try{
-                if (this->empty()){
-                    throw "Cannot index an empty Forward List";
+            if (this->empty()){
+                throw "Cannot index an empty Forward List";
+            } else{
+                if (index < 0){
+                    throw "Index cannot be less than 0";
+                } else if(index == 0){ // return first element
+                    return this->head->data;
+                } else if(index == (this->nodes-1)){ // return last element
+                    return this->tail->data;
+                } else if(index > (this->nodes-1)){
+                    throw "Index out of range";
                 } else{
-                    if (index < 0){
-                        throw "Index cannot be less than 0";
-                    } else if(index == 0){ // return first element
-                        return this->head->data;
-                    } else if(index == (this->nodes-1)){ // return last element
-                        return this->tail->data;
-                    } else if(index > (this->nodes-1)){
-                        throw "Index out of range";
-                    } else{
-                        Node<T>* temp = this->head;
-                        for (int i = 0; i < index; i++){
-                            temp = temp->next;
-                        }
-                        return temp->data;
+                    Node<T>* temp = this->head;
+                    for (int i = 0; i < index; i++){
+                        temp = temp->next;
                     }
-                }  
-            } catch(const char* msg){
-                cerr << msg << endl;
-            } 
+                    return temp->data;
+                }
+            }  
         }
 
         bool empty(){
@@ -155,83 +135,67 @@ class ForwardList : public List<T> {
         }
 
         int size(){
-            try{
-                if (this->empty()){
-                    throw "Forward List is empty";
-                } else{
-                    return this->nodes;
-                }
-            } catch(const char* msg){
-                cerr << msg << endl;
-            } 
+            if (this->empty()){
+                throw "Forward List is empty";
+            } else{
+                return this->nodes;
+            }
         }
 
         void clear(){
-            try{
-                if (this->empty()){
-                    throw "Forward List is already empty";
-                } else{
-                    Node<T>* temp = this->head;
-                    while (temp->next != nullptr){
-                        temp = temp->next;
-                        this->head->killSelf();
-                        this->head = temp;
-                    }
+            if (this->empty()){
+                throw "Forward List is already empty";
+            } else{
+                Node<T>* temp = this->head;
+                while (temp->next != nullptr){
+                    temp = temp->next;
                     this->head->killSelf();
-                    // Next lines allow to use the structure
-                    this->head = nullptr;
-                    this->tail = nullptr;
-                    this->nodes = 0;
+                    this->head = temp;
                 }
-            } catch(const char* msg){
-                cerr << msg << endl;
-            } 
+                this->head->killSelf();
+                // Next lines allow to use the structure
+                this->head = nullptr;
+                this->tail = nullptr;
+                this->nodes = 0;
+            }
         }
 
         void sort(){
-            try{
-                if (this->empty()){
-                    throw "Cannot sort an empty Forward List";
-                } else if(this->nodes-1 == 1){
-                    throw "Forward List only has one element, sort aborted";
-                } else{
-                    MergeSort(this->head);
-                    this->tail = this->head;
-                    while(this->tail->next!=nullptr){
-                        this->tail = this->tail->next;
-                    }
+            if (this->empty()){
+                throw "Cannot sort an empty Forward List";
+            } else if(this->nodes-1 == 1){
+                throw "Forward List only has one element, sort aborted";
+            } else{
+                MergeSort(this->head);
+                this->tail = this->head;
+                while(this->tail->next!=nullptr){
+                    this->tail = this->tail->next;
                 }
-            } catch(const char* msg){
-                cerr << msg << endl;
             }
         }
 
         void reverse(){
-            try{
-                if (this->empty()){
-                    throw "Cannot reverse an empty Forward List";
-                } 
-                else if(this->nodes == 1){
-                    throw "Forward List only has one element, reverse aborted";
-                } else{
-                    Node<T>* temp;
-                    int iter = this->nodes-2;
-                    while (iter!=-1){
-                        temp = this->head;
-                        for (int i = 0; i < iter; i++){ // iterate until one position before the last reversed element
-                            temp = temp->next;
-                        }
-                        temp->next->next = temp; // Reverse "next" pointers
-                        iter--;
+            if (this->empty()){
+                throw "Cannot reverse an empty Forward List";
+            } 
+            else if(this->nodes == 1){
+                throw "Forward List only has one element, reverse aborted";
+            } else{
+                Node<T>* temp;
+                int iter = this->nodes-2;
+                while (iter!=-1){
+                    temp = this->head;
+                    for (int i = 0; i < iter; i++){ // iterate until one position before the last reversed element
+                        temp = temp->next;
                     }
-                    // At the end reverse tail and head
-                    temp = this->tail;
-                    this->head->next = nullptr;
-                    this->tail = this->head;
-                    this->head = temp;
+                    temp->next->next = temp; // Reverse "next" pointers
+                    iter--;
                 }
-            } catch(const char* msg){
-                cerr << msg << endl;
+                // At the end reverse tail and head
+                temp = this->tail;
+                this->head->next = nullptr;
+                this->tail = this->head;
+                this->head = temp;
             }
         }
 
@@ -253,21 +217,19 @@ class ForwardList : public List<T> {
          * or whether the value_type supports move-construction or not.
         */
         void merge(ForwardList<T>& fList){
-            try{
-                if (this->empty() || fList.empty()){
-                    throw "Forward List to be merged is empty, merge aborted";
-                } else{
-                    for (int i = 0; i < fList.size(); i++){
-                        this->tail->next = fList.head;
-                        this->tail = fList.head;
-                        fList.head = fList.head->next;
-                    }
-                    fList.tail = nullptr;
-                    this->nodes += fList.nodes;
-                    fList.nodes = 0;
+            if (this->empty()){
+                throw "This Forward List is empty, merge aborted";
+            } else if(fList.empty()){
+                throw "Forward List to be merged is empty, merge aborted";
+            } else{
+                for (int i = 0; i < fList.size(); i++){
+                    this->tail->next = fList.head;
+                    this->tail = fList.head;
+                    fList.head = fList.head->next;
                 }
-            } catch(const char* msg){
-                cerr << msg << endl;
+                fList.tail = nullptr;
+                this->nodes += fList.nodes;
+                fList.nodes = 0;
             }
         }
 };

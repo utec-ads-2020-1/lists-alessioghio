@@ -35,42 +35,30 @@ public:
 	}
 
 	void pop(){ // changed returned value
-		try{
-			if (this->empty()){
-				throw "Stack is empty, there are no elements to pop";
-			} else{
-				this->capacity--;
-				this->top--;
-				this->resize(this->capacity);
-			}
-		} catch(const char* msg){
-			cerr << msg << endl;
+		if (this->empty()){
+			throw "Stack is empty, there are no elements to pop";
+		} else{
+			this->capacity--;
+			this->top--;
+			this->resize(this->capacity);
 		}
 	}
 
 	T peak(){ // changed returned value and changed method name because of conflict with attribute "top"
-		try{
-			if (this->empty()){
-				throw "Stack is empty, cannot return the top element";
-			} else{
-				T* temp = this->data;
-				temp += top;
-				return *temp;
-			}	
-		} catch(const char* msg){
-			cerr << msg << endl;
-		}	
+		if (this->empty()){
+			throw "Stack is empty, cannot return the top element";
+		} else{
+			T* temp = this->data;
+			temp += top;
+			return *temp;
+		}
 	}
 
 	int size(){
-		try{
-			if (this->empty()){
-				throw "Stack is empty";
-			} else{
-				return this->top + 1;
-			}
-		} catch(const char* msg){
-			cerr << msg << endl;
+		if (this->empty()){
+			throw "Stack is empty";
+		} else{
+			return this->top + 1;
 		}
 	}
 

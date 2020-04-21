@@ -28,26 +28,18 @@ class CircularLinkedList : public List<T> {
         }
 
         T front(){
-            try{
-                if (this->empty()){
-                    throw "Circular Linked List is empty, cannot return front element";
-                }
-                return this->head->data;
-            } catch(const char* msg){
-                cerr << msg << endl;
+            if (this->empty()){
+                throw "Circular Linked List is empty, cannot return front element";
             }
+            return this->head->data;
         }
 
         T back(){
-            try{
-                if (this->empty()){
-                    throw "Circular Linked List is empty, cannot return back element";
-                } else {
-                    return this->tail->data;
-                }
-            } catch(const char* msg){
-                cerr << msg << endl;
-            } 
+            if (this->empty()){
+                throw "Circular Linked List is empty, cannot return back element";
+            } else {
+                return this->tail->data;
+            }
         }
 
         void push_front(T value){ // added argument of type T (there was no argument)
@@ -83,81 +75,69 @@ class CircularLinkedList : public List<T> {
         }
 
         void pop_front(){
-            try{
-                if (this->empty()){
-                    throw "Circular Linked List is empty, cannot pop front element";
+            if (this->empty()){
+                throw "Circular Linked List is empty, cannot pop front element";
+            } else{
+                if (this->nodes>1){
+                    Node<T>* temp = this->head->next;
+                    this->head->killSelf();
+                    this->head = temp;
+                    this->head->prev = this->tail;
+                    this->tail->next = this->head;
                 } else{
-                    if (this->nodes>1){
-                        Node<T>* temp = this->head->next;
-                        this->head->killSelf();
-                        this->head = temp;
-                        this->head->prev = this->tail;
-                        this->tail->next = this->head;
-                    } else{
-                        this->head->killSelf();
-                        this->head = nullptr;
-                        this->tail = nullptr;
-                    }
-                    this->nodes--;
+                    this->head->killSelf();
+                    this->head = nullptr;
+                    this->tail = nullptr;
                 }
-            } catch(const char* msg){
-                cerr << msg << endl;
+                this->nodes--;
             }
         }
 
         void pop_back(){
-            try{
-                if (this->empty()){
-                    throw "Circular Linked List is empty, cannot pop back element";
-                } else{
-                    if (this->nodes>1){
-                        Node<T>* temp = this->tail->prev;
-                        this->tail->killSelf();
-                        this->tail = temp;
-                        this->tail->next = this->head;
-                        this->head->prev = this->tail;
-                    } else{ // Only one element on list
-                        this->tail->killSelf();
-                        this->tail = nullptr;
-                        this->head = nullptr;
-                    }
-                    this->nodes--;
+            if (this->empty()){
+                throw "Circular Linked List is empty, cannot pop back element";
+            } else{
+                if (this->nodes>1){
+                    Node<T>* temp = this->tail->prev;
+                    this->tail->killSelf();
+                    this->tail = temp;
+                    this->tail->next = this->head;
+                    this->head->prev = this->tail;
+                } else{ // Only one element on list
+                    this->tail->killSelf();
+                    this->tail = nullptr;
+                    this->head = nullptr;
                 }
-            } catch(const char* msg){
-                cerr << msg << endl;
-            } 
+                this->nodes--;
+            }
         }
 
         T operator[](int index){ // added int argument (there was no argument)
-            try{
-                if (this->empty()){
-                    throw "Cannot index an empty Circular Linked List";
-                } else{
-                    if (index < 0){
-                        throw "Index cannot be less than 0";
-                    } else if(index == 0){ // return first element
-                        return this->head->data;
-                    } else if(index == (this->nodes-1)){ // return last element
-                        return this->tail->data;
-                    } else if(index > (this->nodes-1)){
-                        throw "Index out of range";
-                    } else if(index > 0 && index < this->nodes/2){ // index is ont he first half
-                        Node<T>* temp = this->head;
-                        for (int i = 0; i < index; i++){
-                            temp = temp->next;
-                        }
-                        return temp->data;
-                    } else{ // index is on the second half
-                        Node<T>* temp = this->tail;
-                        for (int i = this->nodes-1; i > index; i--){
-                            temp = temp->prev;
-                        }
-                        return temp->data;
+            if (this->empty()){
+                throw "Cannot index an empty Circular Linked List";
+            } else{
+                if (index < 0){
+                    throw "Index cannot be less than 0";
+                } else if(index == 0){ // return first element
+                    return this->head->data;
+                } else if(index == (this->nodes-1)){ // return last element
+                    return this->tail->data;
+                } else if(index > (this->nodes-1)){
+                    throw "Index out of range";
+                } else if(index > 0 && index < this->nodes/2){ // index is ont he first half
+                    Node<T>* temp = this->head;
+                    for (int i = 0; i < index; i++){
+                        temp = temp->next;
                     }
-                }  
-            } catch(const char* msg){
-                cerr << msg << endl;
-            }
+                    return temp->data;
+                } else{ // index is on the second half
+                    Node<T>* temp = this->tail;
+                    for (int i = this->nodes-1; i > index; i--){
+                        temp = temp->prev;
+                    }
+                    return temp->data;
+                }
+            }  
         }
 
         bool empty(){
@@ -165,86 +145,70 @@ class CircularLinkedList : public List<T> {
         }
 
         int size(){
-            try{
-                if (this->empty()){
-                    throw "Circular Linked List is empty";
-                } else{
-                    return this->nodes;
-                }
-            } catch(const char* msg){
-                cerr << msg << endl;
+            if (this->empty()){
+                throw "Circular Linked List is empty";
+            } else{
+                return this->nodes;
             }
         }
 
         void clear(){
-            try{
-                if (this->empty()){
-                    throw "Circular Linked List is already empty";
-                } else{
-                    Node<T>* temp = this->head;
-                    while (temp->next != nullptr){
-                        temp = temp->next;
-                        this->head->killSelf();
-                        this->head = temp;
-                    }
+            if (this->empty()){
+                throw "Circular Linked List is already empty";
+            } else{
+                Node<T>* temp = this->head;
+                while (temp->next != nullptr){
+                    temp = temp->next;
                     this->head->killSelf();
-                    // Next lines allow to use the structure
-                    this->head = nullptr;
-                    this->tail = nullptr;
-                    this->nodes = 0;
+                    this->head = temp;
                 }
-            } catch(const char* msg){
-                cerr << msg << endl;
-            } 
+                this->head->killSelf();
+                // Next lines allow to use the structure
+                this->head = nullptr;
+                this->tail = nullptr;
+                this->nodes = 0;
+            }
         }
 
         void sort(){
-            try{
-                if (this->empty()){
-                    throw "Cannot sort an empty Circular Linked List";
-                } else if(this->nodes == 1){
-                    throw "Circular Linked List only has one element, sort aborted";
-                } else{
-                    this->head->prev = nullptr;
-                    this->tail->next = nullptr;
-                    MergeSort(this->head);
-                    Node<T>* temp = this->head;
-                    while(temp->next!=nullptr){
-                        this->tail = temp->next;
-                        this->tail->prev = temp;
-                        temp = temp->next;
-                    }
-                    this->head->prev = this->tail;
-                    this->tail->next = this->head;
+            if (this->empty()){
+                throw "Cannot sort an empty Circular Linked List";
+            } else if(this->nodes == 1){
+                throw "Circular Linked List only has one element, sort aborted";
+            } else{
+                this->head->prev = nullptr;
+                this->tail->next = nullptr;
+                MergeSort(this->head);
+                Node<T>* temp = this->head;
+                while(temp->next!=nullptr){
+                    this->tail = temp->next;
+                    this->tail->prev = temp;
+                    temp = temp->next;
                 }
-            } catch(const char* msg){
-                cerr << msg << endl;
+                this->head->prev = this->tail;
+                this->tail->next = this->head;
             }
         }
 
         void reverse(){
-            try{
-                if (this->empty()){
-                    throw "Cannot reverse an empty Circular Linked List";
-                } 
-                else if(this->nodes == 1){
-                    throw "Circular Linked List only has one element, reverse aborted";
-                } else{
-                    Node<T>* temp,* tempN;
-                    temp = this->head;
-                    for (int i = 0; i < this->nodes; i++){ // iterate until one position before the last reversed element
-                        tempN = temp->next;
-                        temp->next = temp->prev;
-                        temp->prev = tempN;
-                        temp = temp->prev; // previous node is now the new next
-                    }
-                    // At the end reverse tail and head
-                    temp = this->tail;
-                    this->tail = this->head;
-                    this->head = temp;
+            if (this->empty()){
+                throw "Cannot reverse an empty Circular Linked List";
+            } 
+            else if(this->nodes == 1){
+                throw "Circular Linked List only has one element, reverse aborted";
+            } else{
+                Node<T>* temp,* tempN;
+                temp = this->head;
+                for (int i = 0; i < this->nodes; i++){ // iterate until one position before the last reversed element
+                    tempN = temp->next;
+                    temp->next = temp->prev;
+                    temp->prev = tempN;
+                    temp = temp->prev; // previous node is now the new next
                 }
-            } catch(const char* msg){
-                cerr << msg << endl;
+                // At the end reverse tail and head
+                temp = this->tail;
+                this->tail = this->head;
+                this->head = temp;
             }
         }
 
@@ -266,25 +230,23 @@ class CircularLinkedList : public List<T> {
          * or whether the value_type supports move-construction or not.
         */
         void merge(CircularLinkedList<T>& cList){
-            try{
-                if (this->empty() || cList.empty()){
-                    throw "Linked List to be merged is empty, merge aborted";
-                } else{
-                    for (int i = 0; i < cList.size(); i++){
-                        this->tail->next = cList.head;
-                        cList.head->prev = this->tail;
-                        this->tail = cList.head;
-                        cList.head = cList.head->next;
-                    }
-                    cList.head = nullptr;
-                    cList.tail = nullptr;
-                    this->tail->next = this->head;
-                    this->head->prev = this->tail;
-                    this->nodes += cList.nodes;
-                    cList.nodes = 0;
+            if (this->empty()){
+                throw "This Circular Linked List is empty, merge aborted";
+            } else if(cList.empty()){
+                throw "Circular Linked List to be merged is empty, merge aborted";
+            } else{
+                for (int i = 0; i < cList.size(); i++){
+                    this->tail->next = cList.head;
+                    cList.head->prev = this->tail;
+                    this->tail = cList.head;
+                    cList.head = cList.head->next;
                 }
-            } catch(const char* msg){
-                cerr << msg << endl;
+                cList.head = nullptr;
+                cList.tail = nullptr;
+                this->tail->next = this->head;
+                this->head->prev = this->tail;
+                this->nodes += cList.nodes;
+                cList.nodes = 0;
             }
         }
 };
