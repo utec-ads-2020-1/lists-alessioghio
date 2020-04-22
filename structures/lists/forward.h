@@ -199,8 +199,15 @@ class ForwardList : public List<T> {
             }
         }
 
-        ForwardIterator<T> begin();
-	    ForwardIterator<T> end();
+        ForwardIterator<T> begin(){
+            ForwardIterator<T> fIterBegin(this->head);
+            return fIterBegin;
+        }
+
+	    ForwardIterator<T> end(){
+            ForwardIterator<T> fIterEnd(this->tail->next);
+            return fIterEnd;
+        }
 
         string name() {
             return "Forward List";

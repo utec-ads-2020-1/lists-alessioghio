@@ -10,18 +10,47 @@ class BidirectionalIterator {
         Node<T> *current;
 
     public:
-        BidirectionalIterator();
-        BidirectionalIterator(Node<T>*);
+        BidirectionalIterator(){
+            this->current = nullptr;
+        }
 
-        BidirectionalIterator<T> operator=(BidirectionalIterator<T>);
+        BidirectionalIterator(Node<T>* listPtr){
+            this->current = listPtr;
+        }
 
-        bool operator!=(BidirectionalIterator<T>);
+        BidirectionalIterator<T> operator=(BidirectionalIterator<T>){
+            return this->current;
+        }
 
-        BidirectionalIterator<T> operator++();
+        bool operator!=(BidirectionalIterator<T> fIterator){
+            return this->current != fIterator.current;
+        }
 
-        BidirectionalIterator<T> operator--();
+        BidirectionalIterator<T> operator++(){
+            if(this->current){
+                this->current = this->current->next;
+                return this->current;
+            } else{
+                throw "This iterator is not pointing to anything";
+            }
+        }
 
-        T operator*();
+        BidirectionalIterator<T> operator--(){
+            if(this->current){
+                this->current = this->current->prev;
+                return this->current;
+            } else{
+                throw "This iterator is not pointing to anything";
+            }
+        }
+
+        T operator*(){
+            if(this->current){
+                return this->current->data;
+            } else{
+                throw "This iterator is not pointing to anything";
+            }
+        }
 };
 
 #endif

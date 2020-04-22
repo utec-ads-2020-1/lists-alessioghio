@@ -159,5 +159,65 @@ int main(int argc, char *argv[]) {
     myList.merge(myList2); */
     
 
+    /* ForwardList<int> fList;
+    for (int i = 0; i < 10; i++){
+        fList.push_back(i);
+    }
+    ForwardIterator<int> fIter = fList.begin();
+    ForwardIterator<int> fIter2 = fList.end();
+    for (auto i = fIter; i != fIter2; ++i){
+        cout << *i << " ";
+    }
+    cout << endl;
+    ForwardIterator<int> test = fIter;
+    bool notEqual = test!=fIter2; */
+
+    /* LinkedList<int> lList;
+    for (int i = 0; i < 10; i++){
+        lList.push_back(i);
+    }
+    BidirectionalIterator<int> lIter = lList.begin();
+    BidirectionalIterator<int> lIter2 = lList.end();
+    for (auto i = lIter; i != lIter2; ++i){
+        cout << *i << " ";
+    }
+    cout << endl;
+    ++lIter;
+    ++lIter;
+    --lIter;
+    BidirectionalIterator<int> test = lIter;
+    bool notEqual = test!=lIter2; */
+
+    /* CircularLinkedList<int> cList;
+    for (int i = 0; i < 10; i++){
+        cList.push_back(i);
+    }
+    BidirectionalIterator<int> cIter = cList.begin();
+    BidirectionalIterator<int> cIter2 = cList.end();
+    auto i = cIter;
+    do{
+        cout << *i << " ";
+        ++i;
+    } while (i != cIter2);
+    
+    cout << endl;
+    --cIter;
+    --cIter;
+    ++cIter;
+    ++cIter;
+    ++cIter;
+    ++cIter;
+    ++cIter;
+    ++cIter;
+    ++cIter;
+    ++cIter;
+    ++cIter;
+    ++cIter;
+    ++cIter;
+    ++cIter;
+    --cIter;
+    auto test = cIter;
+    bool notEqual = test!=cIter2; */
+
     return EXIT_SUCCESS;
 }

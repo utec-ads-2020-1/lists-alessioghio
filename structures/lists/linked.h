@@ -203,8 +203,15 @@ class LinkedList : public List<T> {
             }
         }
 
-        BidirectionalIterator<T> begin();
-	    BidirectionalIterator<T> end();
+        BidirectionalIterator<T> begin(){
+            BidirectionalIterator<T> biIterBegin(this->head);
+            return biIterBegin;
+        }
+
+	    BidirectionalIterator<T> end(){
+            BidirectionalIterator<T> biIterEnd(this->tail->next);
+            return biIterEnd;
+        }
 
         string name() {
             return "Linked List";

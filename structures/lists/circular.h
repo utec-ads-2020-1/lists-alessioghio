@@ -212,8 +212,15 @@ class CircularLinkedList : public List<T> {
             }
         }
 
-        BidirectionalIterator<T> begin();
-	    BidirectionalIterator<T> end();
+        BidirectionalIterator<T> begin(){
+            BidirectionalIterator<T> biIterBegin = this->head;
+            return biIterBegin;
+        }
+
+	    BidirectionalIterator<T> end(){
+            BidirectionalIterator<T> biIterBegin = this->head;
+            return biIterBegin;
+        }
 
         string name() {
             return "Circular Linked List";
