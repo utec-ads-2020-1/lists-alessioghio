@@ -143,7 +143,7 @@ int main(int argc, char *argv[]) {
     for (int i = 0; i < 4; i++){
         myList.push_back(i);
     }
-    for (int i = 0; i < 11; i++){
+    for (int i = 0; i < 4; i++){
         cout << myList[i] << " ";
     }
     myList2.push_back(22);

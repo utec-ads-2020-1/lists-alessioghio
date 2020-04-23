@@ -135,11 +135,7 @@ class ForwardList : public List<T> {
         }
 
         int size(){
-            if (this->empty()){
-                throw "Forward List is empty";
-            } else{
-                return this->nodes;
-            }
+            return this->nodes;
         }
 
         void clear(){
@@ -224,16 +220,17 @@ class ForwardList : public List<T> {
          * or whether the value_type supports move-construction or not.
         */
         void merge(ForwardList<T>& fList){
-            if (this->empty()){
-                throw "This Forward List is empty, merge aborted";
-            } else if(fList.empty()){
+            if(fList.empty()){
                 throw "Forward List to be merged is empty, merge aborted";
             } else{
-                for (int i = 0; i < fList.size(); i++){
+                if(this->empty()){
+                    this->head = fList.head;
+                    this->tail = fList.tail;
+                } else{
                     this->tail->next = fList.head;
-                    this->tail = fList.head;
-                    fList.head = fList.head->next;
+                    this->tail = fList.tail;
                 }
+                fList.head = nullptr;
                 fList.tail = nullptr;
                 this->nodes += fList.nodes;
                 fList.nodes = 0;

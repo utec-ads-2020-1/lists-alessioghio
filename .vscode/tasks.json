@@ -9,7 +9,9 @@
                 "-g",
                 "${file}",
                 "-o",
-                "${fileDirname}\\${fileBasenameNoExtension}.exe"
+				"${fileDirname}\\${fileBasenameNoExtension}.exe",
+				"${fileDirname}\\mock\\mocker.cpp",
+				"${fileDirname}\\test\\tester.cpp"
             ],
             "options": {
                 "cwd": "C:\\MinGW\\mingw32\\bin"
@@ -30,7 +32,9 @@
                 "-g",
                 "${file}",
                 "-o",
-                "${fileDirname}\\${fileBasenameNoExtension}.exe"
+				"${fileDirname}\\${fileBasenameNoExtension}.exe",
+				"${fileDirname}\\mock\\mocker.cpp",
+				"${fileDirname}\\test\\tester.cpp"
             ],
             "options": {
                 "cwd": "C:\\MinGW\\mingw32\\bin"

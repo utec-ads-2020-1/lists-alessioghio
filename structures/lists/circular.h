@@ -145,11 +145,7 @@ class CircularLinkedList : public List<T> {
         }
 
         int size(){
-            if (this->empty()){
-                throw "Circular Linked List is empty";
-            } else{
-                return this->nodes;
-            }
+            return this->nodes;
         }
 
         void clear(){
@@ -157,6 +153,7 @@ class CircularLinkedList : public List<T> {
                 throw "Circular Linked List is already empty";
             } else{
                 Node<T>* temp = this->head;
+                this->tail->next = nullptr;
                 while (temp->next != nullptr){
                     temp = temp->next;
                     this->head->killSelf();
@@ -237,16 +234,16 @@ class CircularLinkedList : public List<T> {
          * or whether the value_type supports move-construction or not.
         */
         void merge(CircularLinkedList<T>& cList){
-            if (this->empty()){
-                throw "This Circular Linked List is empty, merge aborted";
-            } else if(cList.empty()){
+            if(cList.empty()){
                 throw "Circular Linked List to be merged is empty, merge aborted";
             } else{
-                for (int i = 0; i < cList.size(); i++){
+                if(this->empty()){
+                    this->head = cList.head;
+                    this->tail = cList.tail;
+                } else{
                     this->tail->next = cList.head;
                     cList.head->prev = this->tail;
-                    this->tail = cList.head;
-                    cList.head = cList.head->next;
+                    this->tail = cList.tail;
                 }
                 cList.head = nullptr;
                 cList.tail = nullptr;

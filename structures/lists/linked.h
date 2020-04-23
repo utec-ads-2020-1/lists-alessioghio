@@ -139,11 +139,7 @@ class LinkedList : public List<T> {
         }
         
         int size(){
-            if (this->empty()){
-                throw "Linked List is empty";
-            } else{
-                return this->nodes;
-            }
+            return this->nodes;
         }
         
         void clear(){
@@ -228,17 +224,18 @@ class LinkedList : public List<T> {
          * or whether the value_type supports move-construction or not.
         */
         void merge(LinkedList<T>& lList){
-            if (this->empty()){
-                throw "This Linked List is empty, merge aborted";
-            } else if(lList.empty()){
+            if(lList.empty()){
                 throw "Linked List to be merged is empty, merge aborted";
             } else{
-                for (int i = 0; i < lList.size(); i++){
+                if(this->empty()){
+                    this->head = lList.head;
+                    this->tail = lList.tail;
+                } else{
                     this->tail->next = lList.head;
                     lList.head->prev = this->tail;
-                    this->tail = lList.head;
-                    lList.head = lList.head->next;
+                    this->tail = lList.tail;
                 }
+                lList.head = nullptr;
                 lList.tail = nullptr;
                 this->nodes += lList.nodes;
                 lList.nodes = 0;
