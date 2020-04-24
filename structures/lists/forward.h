@@ -71,9 +71,7 @@ class ForwardList : public List<T> {
         }
 
         void pop_front(){
-            if (this->empty()){
-                throw "Forward List is empty, cannot pop front element";
-            } else{
+            if (!this->empty()){
                 if (this->nodes>1){
                     Node<T>* temp = this->head->next;
                     this->head->killSelf();
@@ -88,9 +86,7 @@ class ForwardList : public List<T> {
         }
 
         void pop_back(){
-            if (this->empty()){
-                throw "Forward List is empty, cannot pop back element";
-            } else{
+            if (!this->empty()){
                 if (this->nodes>1){
                     Node<T>* temp = this->head;
                     while (temp->next->next!=nullptr){
@@ -139,9 +135,7 @@ class ForwardList : public List<T> {
         }
 
         void clear(){
-            if (this->empty()){
-                throw "Forward List is already empty";
-            } else{
+            if (!this->empty()){
                 Node<T>* temp = this->head;
                 while (temp->next != nullptr){
                     temp = temp->next;
@@ -157,11 +151,7 @@ class ForwardList : public List<T> {
         }
 
         void sort(){
-            if (this->empty()){
-                throw "Cannot sort an empty Forward List";
-            } else if(this->nodes-1 == 1){
-                throw "Forward List only has one element, sort aborted";
-            } else{
+            if (!this->empty() || this->nodes != 1){
                 MergeSort(this->head);
                 this->tail = this->head;
                 while(this->tail->next!=nullptr){
@@ -171,12 +161,7 @@ class ForwardList : public List<T> {
         }
 
         void reverse(){
-            if (this->empty()){
-                throw "Cannot reverse an empty Forward List";
-            } 
-            else if(this->nodes == 1){
-                throw "Forward List only has one element, reverse aborted";
-            } else{
+            if (!this->empty() || this->nodes != 1){
                 Node<T>* temp;
                 int iter = this->nodes-2;
                 while (iter!=-1){
@@ -220,9 +205,7 @@ class ForwardList : public List<T> {
          * or whether the value_type supports move-construction or not.
         */
         void merge(ForwardList<T>& fList){
-            if(fList.empty()){
-                throw "Forward List to be merged is empty, merge aborted";
-            } else{
+            if(!fList.empty()){
                 if(this->empty()){
                     this->head = fList.head;
                     this->tail = fList.tail;

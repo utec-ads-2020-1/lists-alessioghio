@@ -71,9 +71,7 @@ class LinkedList : public List<T> {
         }
 
         void pop_front(){
-            if (this->empty()){
-                throw "Linked List is empty, cannot pop front element";
-            } else{
+            if (!this->empty()){
                 if (this->nodes>1){
                     Node<T>* temp = this->head->next;
                     this->head->killSelf();
@@ -89,9 +87,7 @@ class LinkedList : public List<T> {
         }
         
         void pop_back(){
-            if (this->empty()){
-                throw "Linked List is empty, cannot pop back element";
-            } else{
+            if (!this->empty()){
                 if (this->nodes>1){
                     Node<T>* temp = this->tail->prev;
                     this->tail->killSelf();
@@ -143,9 +139,7 @@ class LinkedList : public List<T> {
         }
         
         void clear(){
-            if (this->empty()){
-                throw "Linked List is already empty";
-            } else{
+            if (!this->empty()){
                 Node<T>* temp = this->head;
                 while (temp->next != nullptr){
                     temp = temp->next;
@@ -161,11 +155,7 @@ class LinkedList : public List<T> {
         }
         
         void sort(){
-            if (this->empty()){
-                throw "Cannot sort an empty Linked List";
-            } else if(this->nodes == 1){
-                throw "Linked List only has one element, sort aborted";
-            } else{
+            if (!this->empty() || this->nodes != 1){
                 MergeSort(this->head);
                 this->head->prev = nullptr;
                 Node<T>* temp = this->head;
@@ -178,12 +168,7 @@ class LinkedList : public List<T> {
         }
         
         void reverse(){
-            if (this->empty()){
-                throw "Cannot reverse an empty Linked List";
-            } 
-            else if(this->nodes == 1){
-                throw "Linked List only has one element, reverse aborted";
-            } else{
+            if (!this->empty() || this->nodes != 1){
                 Node<T>* temp,* tempN;
                 temp = this->head;
                 for (int i = 0; i < this->nodes; i++){ // iterate until one position before the last reversed element
@@ -200,13 +185,11 @@ class LinkedList : public List<T> {
         }
 
         BidirectionalIterator<T> begin(){
-            BidirectionalIterator<T> biIterBegin(this->head);
-            return biIterBegin;
+            return BidirectionalIterator<T>(this->head);
         }
 
 	    BidirectionalIterator<T> end(){
-            BidirectionalIterator<T> biIterEnd(this->tail->next);
-            return biIterEnd;
+            return BidirectionalIterator<T>(this->tail->next);
         }
 
         string name() {
@@ -224,9 +207,7 @@ class LinkedList : public List<T> {
          * or whether the value_type supports move-construction or not.
         */
         void merge(LinkedList<T>& lList){
-            if(lList.empty()){
-                throw "Linked List to be merged is empty, merge aborted";
-            } else{
+            if(!lList.empty()){
                 if(this->empty()){
                     this->head = lList.head;
                     this->tail = lList.tail;

@@ -75,9 +75,7 @@ class CircularLinkedList : public List<T> {
         }
 
         void pop_front(){
-            if (this->empty()){
-                throw "Circular Linked List is empty, cannot pop front element";
-            } else{
+            if (!this->empty()){
                 if (this->nodes>1){
                     Node<T>* temp = this->head->next;
                     this->head->killSelf();
@@ -94,9 +92,7 @@ class CircularLinkedList : public List<T> {
         }
 
         void pop_back(){
-            if (this->empty()){
-                throw "Circular Linked List is empty, cannot pop back element";
-            } else{
+            if (!this->empty()){
                 if (this->nodes>1){
                     Node<T>* temp = this->tail->prev;
                     this->tail->killSelf();
@@ -149,9 +145,7 @@ class CircularLinkedList : public List<T> {
         }
 
         void clear(){
-            if (this->empty()){
-                throw "Circular Linked List is already empty";
-            } else{
+            if (!this->empty()){
                 Node<T>* temp = this->head;
                 this->tail->next = nullptr;
                 while (temp->next != nullptr){
@@ -168,11 +162,7 @@ class CircularLinkedList : public List<T> {
         }
 
         void sort(){
-            if (this->empty()){
-                throw "Cannot sort an empty Circular Linked List";
-            } else if(this->nodes == 1){
-                throw "Circular Linked List only has one element, sort aborted";
-            } else{
+            if (!this->empty() || this->nodes != 1){
                 this->head->prev = nullptr;
                 this->tail->next = nullptr;
                 MergeSort(this->head);
@@ -184,16 +174,11 @@ class CircularLinkedList : public List<T> {
                 }
                 this->head->prev = this->tail;
                 this->tail->next = this->head;
-            }
+            } 
         }
 
         void reverse(){
-            if (this->empty()){
-                throw "Cannot reverse an empty Circular Linked List";
-            } 
-            else if(this->nodes == 1){
-                throw "Circular Linked List only has one element, reverse aborted";
-            } else{
+            if (!this->empty() || this->nodes != 1){
                 Node<T>* temp,* tempN;
                 temp = this->head;
                 for (int i = 0; i < this->nodes; i++){ // iterate until one position before the last reversed element
@@ -210,13 +195,11 @@ class CircularLinkedList : public List<T> {
         }
 
         BidirectionalIterator<T> begin(){
-            BidirectionalIterator<T> biIterBegin = this->head;
-            return biIterBegin;
+            return BidirectionalIterator<T>(this->head);
         }
 
 	    BidirectionalIterator<T> end(){
-            BidirectionalIterator<T> biIterBegin = this->head;
-            return biIterBegin;
+            return BidirectionalIterator<T>(this->head);
         }
 
         string name() {
@@ -234,9 +217,7 @@ class CircularLinkedList : public List<T> {
          * or whether the value_type supports move-construction or not.
         */
         void merge(CircularLinkedList<T>& cList){
-            if(cList.empty()){
-                throw "Circular Linked List to be merged is empty, merge aborted";
-            } else{
+            if(!cList.empty()){
                 if(this->empty()){
                     this->head = cList.head;
                     this->tail = cList.tail;
