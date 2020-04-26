@@ -182,23 +182,29 @@ int main(int argc, char *argv[]) {
         cout << *i << " ";
     }
     cout << endl;
+    for (auto i = lIter2; i != lIter; --i){
+        cout << *i << " ";
+    }
+    cout << endl;
     ++lIter;
     ++lIter;
     --lIter;
     BidirectionalIterator<int> test = lIter;
     bool notEqual = test!=lIter2; */
 
-    /* CircularLinkedList<int> cList;
+    CircularLinkedList<int> cList;
     for (int i = 0; i < 10; i++){
         cList.push_back(i);
     }
     BidirectionalIterator<int> cIter = cList.begin();
     BidirectionalIterator<int> cIter2 = cList.end();
-    auto i = cIter;
-    do{
+    for (auto i = cIter; i != cIter2; ++i){
         cout << *i << " ";
-        ++i;
-    } while (i != cIter2);
+    }
+    cout << endl;
+    for (auto i = cIter2; i != cIter; --i){
+        cout << *i << " ";
+    }
     
     cout << endl;
     --cIter;
@@ -217,7 +223,7 @@ int main(int argc, char *argv[]) {
     ++cIter;
     --cIter;
     auto test = cIter;
-    bool notEqual = test!=cIter2; */
+    bool notEqual = test!=cIter2;
 
     return EXIT_SUCCESS;
 }

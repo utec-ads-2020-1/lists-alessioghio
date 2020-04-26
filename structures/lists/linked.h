@@ -10,11 +10,17 @@
 // TODO: Implement all methods
 template <typename T>
 class LinkedList : public List<T> {
+    private:
+        Node<T>* sentinel;
     public:
-        LinkedList() : List<T>() {}
+        LinkedList() : List<T>() {
+            sentinel = new Node<T>();
+        }
 
         ~LinkedList(){ // Similar to clear
             if (!this->empty()){ // list is not empty
+                this->head->prev = nullptr;
+                this->tail->next = nullptr;
                 Node<T>* temp = this->head;
                 while (temp->next != nullptr){
                     temp = temp->next;
@@ -24,6 +30,7 @@ class LinkedList : public List<T> {
                 this->head->killSelf();
                 delete this->head;
                 delete this->tail;
+                delete this->sentinel;
             }
         }
 
@@ -53,7 +60,11 @@ class LinkedList : public List<T> {
                 this->head->prev = myNode;
                 this->head = myNode;
             }
-            this->nodes++;
+            this->head->prev = sentinel;
+            this->tail->next = sentinel;
+            sentinel->next = this->head;
+            sentinel->prev = this->tail;
+            this->nodes++;   
         }
 
         void push_back(T value){ // added argument of type T (there was no argument)
@@ -67,11 +78,17 @@ class LinkedList : public List<T> {
                 myNode->prev = this->tail;
                 this->tail = myNode;
             }
+            this->head->prev = sentinel;
+            this->tail->next = sentinel;
+            sentinel->next = this->head;
+            sentinel->prev = this->tail;
             this->nodes++;
         }
 
         void pop_front(){
             if (!this->empty()){
+                this->head->prev = nullptr;
+                this->tail->next = nullptr;
                 if (this->nodes>1){
                     Node<T>* temp = this->head->next;
                     this->head->killSelf();
@@ -82,12 +99,18 @@ class LinkedList : public List<T> {
                     this->head = nullptr;
                     this->tail = nullptr;
                 }
+                this->head->prev = sentinel;
+                this->tail->next = sentinel;
+                sentinel->next = this->head;
+                sentinel->prev = this->tail;
                 this->nodes--;
             }
         }
         
         void pop_back(){
             if (!this->empty()){
+                this->head->prev = nullptr;
+                this->tail->next = nullptr;
                 if (this->nodes>1){
                     Node<T>* temp = this->tail->prev;
                     this->tail->killSelf();
@@ -98,6 +121,10 @@ class LinkedList : public List<T> {
                     this->tail = nullptr;
                     this->head = nullptr;
                 }
+                this->head->prev = sentinel;
+                this->tail->next = sentinel;
+                sentinel->next = this->head;
+                sentinel->prev = this->tail;
                 this->nodes--;
             }
         }
@@ -140,6 +167,8 @@ class LinkedList : public List<T> {
         
         void clear(){
             if (!this->empty()){
+                this->head->prev = nullptr;
+                this->tail->next = nullptr;
                 Node<T>* temp = this->head;
                 while (temp->next != nullptr){
                     temp = temp->next;
@@ -150,14 +179,17 @@ class LinkedList : public List<T> {
                 // Next lines allow to use the structure
                 this->head = nullptr;
                 this->tail = nullptr;
+                sentinel->next = this->head;
+                sentinel->prev = this->tail;
                 this->nodes = 0;
             }
         }
         
         void sort(){
             if (!this->empty() || this->nodes != 1){
-                MergeSort(this->head);
                 this->head->prev = nullptr;
+                this->tail->next = nullptr;
+                MergeSort(this->head);
                 Node<T>* temp = this->head;
                 while(temp->next!=nullptr){
                     this->tail = temp->next;
@@ -165,6 +197,10 @@ class LinkedList : public List<T> {
                     temp = temp->next;
                 }
             }
+            this->head->prev = sentinel;
+            this->tail->next = sentinel;
+            sentinel->next = this->head;
+            sentinel->prev = this->tail;
         }
         
         void reverse(){
@@ -181,15 +217,19 @@ class LinkedList : public List<T> {
                 temp = this->tail;
                 this->tail = this->head;
                 this->head = temp;
+                this->head->prev = sentinel;
+                this->tail->next = sentinel;
+                sentinel->next = this->head;
+                sentinel->prev = this->tail;
             }
         }
 
         BidirectionalIterator<T> begin(){
-            return BidirectionalIterator<T>(this->head);
+            return BidirectionalIterator<T>(sentinel->next);
         }
 
 	    BidirectionalIterator<T> end(){
-            return BidirectionalIterator<T>(this->tail->next);
+            return BidirectionalIterator<T>(sentinel);
         }
 
         string name() {
@@ -220,6 +260,8 @@ class LinkedList : public List<T> {
                 lList.tail = nullptr;
                 this->nodes += lList.nodes;
                 lList.nodes = 0;
+                sentinel->next = this->head;
+                sentinel->prev = this->tail;
             }
         }
 };

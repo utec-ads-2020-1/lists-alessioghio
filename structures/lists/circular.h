@@ -9,8 +9,12 @@
 // TODO: Implement all methods
 template <typename T>
 class CircularLinkedList : public List<T> {
+    private:
+        Node<T>* sentinel;
     public:
-        CircularLinkedList() : List<T>() {}
+        CircularLinkedList() : List<T>() {
+            sentinel = new Node<T>();
+        }
 
         ~CircularLinkedList(){
             if (!this->empty()){ // list is not empty
@@ -24,6 +28,7 @@ class CircularLinkedList : public List<T> {
                 this->head->killSelf();
                 delete this->head;
                 delete this->tail;
+                delete this->sentinel;
             }
         }
 
@@ -55,6 +60,8 @@ class CircularLinkedList : public List<T> {
                 this->tail->next = myNode;
                 this->head = myNode;
             }
+            sentinel->next = this->head;
+            sentinel->prev = this->tail;
             this->nodes++;
         }
 
@@ -71,6 +78,8 @@ class CircularLinkedList : public List<T> {
                 this->head->prev = myNode;
                 this->tail = myNode;
             }
+            sentinel->next = this->head;
+            sentinel->prev = this->tail;
             this->nodes++;
         }
 
@@ -87,6 +96,8 @@ class CircularLinkedList : public List<T> {
                     this->head = nullptr;
                     this->tail = nullptr;
                 }
+                sentinel->next = this->head;
+                sentinel->prev = this->tail;
                 this->nodes--;
             }
         }
@@ -104,6 +115,8 @@ class CircularLinkedList : public List<T> {
                     this->tail = nullptr;
                     this->head = nullptr;
                 }
+                sentinel->next = this->head;
+                sentinel->prev = this->tail;
                 this->nodes--;
             }
         }
@@ -158,6 +171,8 @@ class CircularLinkedList : public List<T> {
                 this->head = nullptr;
                 this->tail = nullptr;
                 this->nodes = 0;
+                sentinel->next = this->head;
+                sentinel->prev = this->tail;
             }
         }
 
@@ -174,6 +189,8 @@ class CircularLinkedList : public List<T> {
                 }
                 this->head->prev = this->tail;
                 this->tail->next = this->head;
+                sentinel->next = this->head;
+                sentinel->prev = this->tail;
             } 
         }
 
@@ -191,15 +208,17 @@ class CircularLinkedList : public List<T> {
                 temp = this->tail;
                 this->tail = this->head;
                 this->head = temp;
+                sentinel->next = this->head;
+                sentinel->prev = this->tail;
             }
         }
 
         BidirectionalIterator<T> begin(){
-            return BidirectionalIterator<T>(this->head);
+            return BidirectionalIterator<T>(sentinel->next);
         }
 
 	    BidirectionalIterator<T> end(){
-            return BidirectionalIterator<T>(this->head);
+            return BidirectionalIterator<T>(sentinel->prev);
         }
 
         string name() {
@@ -231,6 +250,8 @@ class CircularLinkedList : public List<T> {
                 this->tail->next = this->head;
                 this->head->prev = this->tail;
                 this->nodes += cList.nodes;
+                sentinel->next = this->head;
+                sentinel->prev = this->tail;
                 cList.nodes = 0;
             }
         }
