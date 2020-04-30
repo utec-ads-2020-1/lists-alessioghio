@@ -14,11 +14,12 @@ class BidirectionalIterator {
             this->current = nullptr;
         }
 
-        BidirectionalIterator(Node<T>* listPtr){
+        BidirectionalIterator(Node<T>* listPtr){// explicit: va a generar error, ya que estás retornando uso implícito de constructores
             this->current = listPtr;
         }
 
         BidirectionalIterator<T> operator=(BidirectionalIterator<T>){
+            // Estás creando un nuevo iterador en vez de igualarlo
             return this->current;
         }
 
@@ -29,6 +30,7 @@ class BidirectionalIterator {
         BidirectionalIterator<T> operator++(){
             if(this->current){
                 this->current = this->current->next;
+                // Estás creando un nuevo iterador en vez de retornarnlo 
                 return this->current;
             } else{
                 throw "This iterator is not pointing to anything";
@@ -38,6 +40,7 @@ class BidirectionalIterator {
         BidirectionalIterator<T> operator--(){
             if(this->current){
                 this->current = this->current->prev;
+                // Estás creando un nuevo iterador en vez de retornarnlo 
                 return this->current;
             } else{
                 throw "This iterator is not pointing to anything";
