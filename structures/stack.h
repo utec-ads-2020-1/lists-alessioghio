@@ -29,6 +29,7 @@ public:
 			this->resize(this->capacity*2);
 		}
 		this->top++;
+		// this->data[this->top] = value ?????
 		T* temp = this->data;
 		temp += top;
 		*temp = value;
@@ -40,7 +41,7 @@ public:
 		} else{
 			this->capacity--;
 			this->top--;
-			this->resize(this->capacity);
+			this->resize(this->capacity); // Tu pop  va a ser muy pesado
 		}
 	}
 

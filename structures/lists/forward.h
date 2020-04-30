@@ -23,9 +23,16 @@ class ForwardList : public List<T> {
                     this->head = temp;
                 }
                 this->head->killSelf();
-                delete temp;
-                delete this->head;
-                delete this->tail;
+                delete temp; // No es necesario
+                delete this->head; // No es necesario 
+                delete this->tail; // No es necesario
+
+                // Tu lógica se  pudo simplificar:
+                while (this->head) {
+                    temp = this->head;
+                    this->head = this->head->next;
+                    delete temp;
+                }
             }
         }
 
@@ -39,7 +46,7 @@ class ForwardList : public List<T> {
         T back(){
             if (this->empty()){
                 throw "Forward List is empty, cannot return back element";
-            } else {
+            } else { 
                 return this->tail->data;
             }
         }
@@ -55,8 +62,19 @@ class ForwardList : public List<T> {
                 this->head = myNode;
             }
             this->nodes++;
+
+            // Se pudo simplificar:
+            Node<T>* newNode = new Node<T>(value); // Siempre se va a crear
+            if (!this->head) {
+                this->head = this->tail = newNode;
+            } else {
+                newNode->next = this->head;
+                this->head = newNode;
+            }
+            this->nodes++;
         }
         
+        // Igual que el caso anterior
         void push_back(T value){ // added argument of type T (there was no argument)
             if(this->empty()){
                 Node<T>* myNode = new Node<T>(value);
@@ -72,6 +90,7 @@ class ForwardList : public List<T> {
 
         void pop_front(){
             if (!this->empty()){
+                // Se pudo simplificar
                 if (this->nodes>1){
                     Node<T>* temp = this->head->next;
                     this->head->killSelf();
@@ -92,7 +111,7 @@ class ForwardList : public List<T> {
                     while (temp->next->next!=nullptr){
                         temp = temp->next;
                     }
-                    this->tail->killSelf();
+                    this->tail->killSelf(); // No era la idea  del killself en si
                     this->tail = temp;
                     this->tail->next = nullptr; // Tail next is always a nullptr
                 } else{ // Only one element on list
@@ -109,7 +128,7 @@ class ForwardList : public List<T> {
                 throw "Cannot index an empty Forward List";
             } else{
                 if (index < 0){
-                    throw "Index cannot be less than 0";
+                    throw "Index cannot be less than 0"; // Pudiste anidar las condiciones if (!this->head || indes < 0 || index > (this->nodes-1)) throw...
                 } else if(index == 0){ // return first element
                     return this->head->data;
                 } else if(index == (this->nodes-1)){ // return last element

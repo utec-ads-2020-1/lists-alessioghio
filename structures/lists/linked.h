@@ -17,6 +17,7 @@ class LinkedList : public List<T> {
             sentinel = new Node<T>();
         }
 
+        // Similar a Forward List
         ~LinkedList(){ // Similar to clear
             if (!this->empty()){ // list is not empty
                 this->head->prev = nullptr;
@@ -109,8 +110,10 @@ class LinkedList : public List<T> {
         
         void pop_back(){
             if (!this->empty()){
+                // Esto  ya  debería estar así, está sobrando
                 this->head->prev = nullptr;
                 this->tail->next = nullptr;
+                ///////////////////////////
                 if (this->nodes>1){
                     Node<T>* temp = this->tail->prev;
                     this->tail->killSelf();

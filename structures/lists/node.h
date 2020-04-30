@@ -7,8 +7,8 @@ struct Node {
     Node<T>* next;
     Node<T>* prev;
 
-    Node(){
-        this->data = 0;
+    Node(){ // Podrás haber llamado al otro constructor
+        this->data = 0; 
         this->next = nullptr;
         this->prev = nullptr;
     }
